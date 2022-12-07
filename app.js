@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require("cookie-parser");
 const routes = require('./routes/login.js');
 const app = express();
-const port = 3011;
+const port = 3000;
 
 // 정적 파일을 서빙함, 전역 미들웨어
 app.use(express.static("assets"));
