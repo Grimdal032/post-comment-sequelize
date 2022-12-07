@@ -18,15 +18,15 @@ module.exports = {
     */
     await queryInterface.createTable('Users', {
       userId: {
-        allowNull: false, // Null 값을 허용하는가? -> false: 허용하지 않는다.
-        autoIncrement: true,  // 기본키에 데이터를 넣지 않으면 자동적으로 1씩 증가한 데이터가 삽입된다.
-        primaryKey: true, // 기본키
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.DataTypes.INTEGER,
       },
       nickname: {
-        type: Sequelize.DataTypes.STRING, // VARCHAR
-        unique: true,  // 회원의 닉네임은 무조건 1개만 존재해야 한다. -> 중복 불가
-        allowNull: false, // NULL 값 허용하지 않음.
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
+        allowNull: false,
       },
       password: {
         type: Sequelize.DataTypes.STRING,
@@ -35,7 +35,7 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW // 아무런 데이터도 넣지 않았을 때 기본적으로 생성되는 값.
+        defaultValue: Sequelize.DataTypes.NOW
       },
       updatedAt: {
         allowNull: false,

@@ -41,7 +41,6 @@ module.exports = {
           key : 'userId',
         },
         allowNull: false,
-        ondelete : 'cascade',
       },
       nickname: {
         type: Sequelize.DataTypes.STRING,

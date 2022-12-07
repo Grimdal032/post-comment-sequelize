@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
+        type: Sequelize.DataTypes.INTEGER,
       },
       userId: {
         type: Sequelize.DataTypes.INTEGER,
@@ -31,7 +31,6 @@ module.exports = {
           key : 'userId',
         },
         allowNull: false,
-        ondelete : 'cascade',
       },
       nickname: {
         type: Sequelize.DataTypes.STRING,
@@ -51,17 +50,17 @@ module.exports = {
       },
       likes: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER
+        type: Sequelize.DataTypes.INTEGER,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
+        defaultValue: Sequelize.DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
+        defaultValue: Sequelize.DataTypes.NOW,
       }
     });
   },

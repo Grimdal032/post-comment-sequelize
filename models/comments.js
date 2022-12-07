@@ -37,7 +37,6 @@ module.exports = (sequelize, DataTypes) => {
         key : 'userId',
       },
       allowNull: false,
-      ondelete : 'cascade',
     },
     nickname: {
       type: DataTypes.STRING,

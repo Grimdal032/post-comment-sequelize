@@ -44,7 +44,7 @@ module.exports = async (req, res, next) => {
 // Access Token을 검증합니다.
 function validateAccessToken(accessToken) {
     try {
-      jwt.verify(accessToken, SECRET_KEY); // JWT를 검증합니다.
+      jwt.verify(accessToken, SECRET_KEY);
       return true;
     } catch (error) {
       return false;
@@ -54,7 +54,7 @@ function validateAccessToken(accessToken) {
 // Refresh Token을 검증합니다.
 function validateRefreshToken(refreshToken) {
     try {
-      jwt.verify(refreshToken, SECRET_KEY); // JWT를 검증합니다.
+      jwt.verify(refreshToken, SECRET_KEY);
       return true;
     } catch (error) {
       return false;
@@ -64,16 +64,16 @@ function validateRefreshToken(refreshToken) {
   // Access Token을 생성합니다.
 function createAccessToken(userId) {
     const accessToken = jwt.sign(
-      { userId: userId }, // JWT 데이터
-      SECRET_KEY, // 비밀키
-      { expiresIn: '10m' }) // Access Token이 10초 뒤에 만료되도록 설정합니다.
+      { userId: userId },
+      SECRET_KEY,
+      { expiresIn: '10m' })
     return accessToken;
 };
 
 // Access Token의 Payload를 가져옵니다.
 function getAccessTokenPayload(accessToken) {
     try {
-      const payload = jwt.verify(accessToken, SECRET_KEY); // JWT에서 Payload를 가져옵니다.
+      const payload = jwt.verify(accessToken, SECRET_KEY);
       return payload;
     } catch (error) {
       return null;
