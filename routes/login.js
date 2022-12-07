@@ -3,6 +3,9 @@ const { Users } = require('../models');
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
 
+require('dotenv').config();
+const env = process.env;
+
 const router = express.Router();
 const PostRouter = require('./posts.js');
 const CommentRouter = require('./comments.js');
@@ -63,7 +66,7 @@ router.post("/signup", async (req, res) => {
         }
         // npm i crypto-js
         // base64는 해시값이 짧아서 많이 쓴다고함
-        const pw_hash = crypto.createHash(HASH).update(password).digest(DIGEST);
+        const pw_hash = crypto.createHash(env.HASH).update(password).digest(env.DIGEST);
         const createUser = await Users.create({ 
             nickname, 
             password: pw_hash
@@ -80,7 +83,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { nickname, password } = req.body;
-        const pw_hash = crypto.createHash(HASH).update(password).digest(DIGEST);
+        const pw_hash = crypto.createHash(env.HASH).update(password).digest(env.DIGEST);
         const user = await Users.findOne({
             where: {
                 nickname,
@@ -107,7 +110,7 @@ router.post("/login", async (req, res) => {
 function createAccessToken(userId) {
     const accessToken = jwt.sign(
       { userId: userId }, // JWT 데이터
-      SECRET_KEY, // 비밀키
+      env.SECRET_KEY, // 비밀키
       { expiresIn: '10m' }) // Access Token이 10초 뒤에 만료되도록 설정합니다.
     return accessToken;
 };
@@ -116,7 +119,7 @@ function createAccessToken(userId) {
 function createRefreshToken() {
     const refreshToken = jwt.sign(
       {}, // JWT 데이터
-      SECRET_KEY, // 비밀키
+      env.SECRET_KEY, // 비밀키
       { expiresIn: '7d' }) // Refresh Token이 7일 뒤에 만료되도록 설정합니다.
   
     return refreshToken;
