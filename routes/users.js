@@ -4,7 +4,6 @@ const { Users } = require("../models");
 const router = express.Router();
 
 // 회원 목록 조회
-// 수정 완료
 router.get("/", async (req, res) => {
     try {
         const users = await Users.findAll({});

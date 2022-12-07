@@ -28,10 +28,9 @@ module.exports = {
       },
       postId: {
         type: Sequelize.DataTypes.INTEGER,
-        // 관계를 맺는다.
-        references: { // Users 테이블의 userId랑 관계를 맺었다.
-          model: 'Posts', // 어떤 테이블인지
-          key : 'postId', // 어떤 테이블의 어떤 Column인지
+        references: {
+          model: 'Posts',
+          key : 'postId',
         },
         allowNull: false,
       },
@@ -42,6 +41,7 @@ module.exports = {
           key : 'userId',
         },
         allowNull: false,
+        ondelete : 'cascade',
       },
       nickname: {
         type: Sequelize.DataTypes.STRING,

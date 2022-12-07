@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         key : 'userId', // 어떤 테이블의 어떤 Column인지
       },
       allowNull: false,
+      ondelete: 'cascade',
     },
     createdAt: {
       allowNull: false,

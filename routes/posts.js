@@ -1,5 +1,5 @@
 const express = require('express');
-const { Users, Comments, Posts, Likes, sequelize } = require("../models");
+const { Comments, Posts, Likes } = require("../models");
 const authMiddleware = require("../middleware/auth-middleware.js");
 const router = express.Router();
 
@@ -36,11 +36,6 @@ router.post("/", authMiddleware, async (req, res) => {
         if(title === null || content === null) {
             return res.status(412).json({ errorMessage: "데이터 형식이 올바르지 않습니다."});
         }
-        // 이해 못함
-        // # 412 Title의 형식이 비정상적인 경우
-        // {"errorMessage": "게시글 제목의 형식이 일치하지 않습니다."}
-        // # 412 Content의 형식이 비정상적인 경우
-        // {"errorMessage": "게시글 내용의 형식이 일치하지 않습니다."}
         const likes = 0;
         const createdPosts = await Posts.create({ userId, nickname, title, content, likes });
 
@@ -58,13 +53,6 @@ router.put("/:postId", authMiddleware, async (req, res) => {
         if(title === null || content === null) {
             return res.status(412).json({errorMessage: "데이터 형식이 올바르지 않습니다."});
         }
-        // 모르겠음
-        // # 412 Title의 형식이 비정상적인 경우
-        // {"errorMessage": "게시글 제목의 형식이 일치하지 않습니다."}
-        // # 412 Content의 형식이 비정상적인 경우
-        // {"errorMessage": "게시글 내용의 형식이 일치하지 않습니다."}
-        // # 401 게시글 수정이 실패한 경우
-        // {"errorMessage": "게시글이 정상적으로 수정되지 않았습니다.”}
         await Posts.update({title, content}, {where: {postId: postId}});
         return res.status(200).json({message: "게시글을 수정하였습니다."});
     } catch (error) {
@@ -98,12 +86,12 @@ router.put("/:postId/like", authMiddleware, async (req, res) => {
         const { user }= res.locals;
         const { userId } = user;
         const existLike = await Likes.findOne({where: {postId: postId, userId: userId}});
-        if(existLike === null) {    // Like가 존재하지 않으면 좋아요 추가
+        if(existLike === null) {
             const likes = existPost.likes + 1;
             await Posts.update({ likes }, {where: {postId: postId}});
             await Likes.create({ postId, userId });
             return res.status(200).json({message: "게시글의 좋아요를 등록하였습니다."});
-        }else { // 이미 Like가 존재하는 경우 좋아요 취소
+        }else {
             const { likeId } = existLike; 
             const likes = existPost.likes - 1;
             await Posts.update({ likes }, {where: {postId: postId}});

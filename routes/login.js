@@ -21,10 +21,6 @@ router.use('/users', [UserRouter]);
 router.post("/signup", async (req, res) => {
     try {
         const { nickname, password, confirm } = req.body;
-        // 3. #412 닉네임 형식이 비정상적인 경우
-        // 최소 3자 이상, 알파벳 대소문자(a-z, A-Z), 숫자 (0-9)로 구성
-        // 둘 중 하나라도 false가 검출되면 true로 변경해서 에러 리턴
-        // https://newehblog.tistory.com/54
         const IDCheck = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{3,}$/;
         if(!(IDCheck.test(nickname))) {
             res.status(412).json({
@@ -32,7 +28,6 @@ router.post("/signup", async (req, res) => {
             });
             return;
         }
-        // 1. #412 닉네임이 중복된 경우
         const existsUsers = await Users.findAll({
             where: { nickname }
         });
@@ -42,30 +37,24 @@ router.post("/signup", async (req, res) => {
             });
             return;
         }
-        // 2. #412 비밀번호가 일치하지 않는 경우
         if (password !== confirm) {
             res.status(412).json({
               errorMessage: "패스워드가 패스워드 확인란과 다릅니다.",
             });
             return;
         }
-        // 4. #412 password 형식이 비정상적인 경우
-        // 비밀번호는 최소 4자 이상이며
         if(password.length<4){
             res.status(412).json({
                 errorMessage: "패스워드 형식이 일치하지 않습니다.",
             });
             return;
         }
-        // 5. #412 password에 닉네임이 포함되어 있는 경우
         if(password.indexOf(nickname) !== -1) {
             res.status(412).json({
                 errorMessage: "패스워드에 닉네임이 포함되어 있습니다.",
             });
             return;
         }
-        // npm i crypto-js
-        // base64는 해시값이 짧아서 많이 쓴다고함
         const pw_hash = crypto.createHash(env.HASH).update(password).digest(env.DIGEST);
         const createUser = await Users.create({ 
             nickname, 
@@ -79,7 +68,6 @@ router.post("/signup", async (req, res) => {
 });
 
 // 로그인
-// 암호화 업데이트
 router.post("/login", async (req, res) => {
     try {
         const { nickname, password } = req.body;
@@ -90,7 +78,6 @@ router.post("/login", async (req, res) => {
                 password: pw_hash,
             },
         });
-        // 로그인 검사가 실패했을 경우
         if(!user) {
             res.status(412).json({ errorMessage: "닉네임 또는 패스워드를 확인해주세요."});
             return;
@@ -106,22 +93,18 @@ router.post("/login", async (req, res) => {
 // 로그아웃
 // Access Token = null
 
-// Access Token을 생성합니다.
 function createAccessToken(userId) {
     const accessToken = jwt.sign(
-      { userId: userId }, // JWT 데이터
-      env.SECRET_KEY, // 비밀키
-      { expiresIn: '10m' }) // Access Token이 10초 뒤에 만료되도록 설정합니다.
-    return accessToken;
+      { userId: userId },
+      env.SECRET_KEY,
+      { expiresIn: '10m' })
 };
 
-// Refresh Token을 생성합니다.
 function createRefreshToken() {
     const refreshToken = jwt.sign(
-      {}, // JWT 데이터
-      env.SECRET_KEY, // 비밀키
-      { expiresIn: '7d' }) // Refresh Token이 7일 뒤에 만료되도록 설정합니다.
-  
+      {},
+      env.SECRET_KEY,
+      { expiresIn: '7d' })
     return refreshToken;
 };
 module.exports = router;

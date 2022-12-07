@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // posts와 comments는 1대다 관계
       this.hasMany(models.Comments, {
         foreignKey: 'postId',
       });
@@ -35,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         key : 'userId', // 어떤 테이블의 어떤 Column인지
       },
       allowNull: false,
+      onDelete: 'cascade',
     },
     nickname: {
       type: DataTypes.STRING,

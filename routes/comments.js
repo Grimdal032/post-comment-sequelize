@@ -27,7 +27,6 @@ router.post("/:postId", authMiddleware, async (req, res) => {
         if(comment === null) {
             return res.status(412).json({ errorMessage: "댓글 내용을 입력해주세요."});
         }
-        //auth 에서 유저 정보 받아올 것
         const { user }= res.locals;
         const { userId, nickname } = user;
         const createdComment = await Comments.create({ postId, userId, nickname, comment });
@@ -44,9 +43,6 @@ router.put("/:commentId", authMiddleware, async (req, res) => {
         const { comment } = req.body;
         const existComment = await Comments.findOne({where: {commentId: commentId}});
 
-        // 모르겠음
-        // # 412 body 데이터가 정상적으로 전달되지 않는 경우
-        // {"errorMessage": "데이터 형식이 올바르지 않습니다."}
         if(existComment !== null) {
             if(comment === undefined) { 
                 return res.status(400).json({errorMessage: "댓글 수정이 정상적으로 처리되지 않았습니다."});
@@ -62,12 +58,8 @@ router.put("/:commentId", authMiddleware, async (req, res) => {
 });
 
 // 댓글 삭제
-// idea - 아예 삭제 보다는 "삭제된 댓글입니다" 를 넣는 것이 더 낫지 않을까?
 router.delete("/:commentId", authMiddleware, async (req, res) => {
     try {
-        // 모르겠음
-        // # 400 댓글 삭제에 실패한 경우
-        // {"errorMessage": "댓글 삭제가 정상적으로 처리되지 않았습니다.”}
         const { commentId } = req.params;
         const existComment = await Comments.findOne({where: {commentId: commentId}});
         if(existComment !== null) {
