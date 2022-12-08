@@ -5,16 +5,11 @@ const jwt = require("jsonwebtoken");
 
 require('dotenv').config();
 const env = process.env;
-
 const router = express.Router();
-const PostRouter = require('./posts.js');
-const CommentRouter = require('./comments.js');
-const UserRouter = require('./users.js');
 
-router.use('/posts', [PostRouter]);
-router.use('/comments', [CommentRouter]);
-router.use('/users', [UserRouter]);
 
+// Token 발급
+let tokenObject = {}; // Refresh Token을 저장할 Object
 
 // 회원 생성
 // 암호화 업데이트
@@ -67,6 +62,8 @@ router.post("/signup", async (req, res) => {
     }
 });
 
+
+
 // 로그인
 router.post("/login", async (req, res) => {
     try {
@@ -82,8 +79,12 @@ router.post("/login", async (req, res) => {
             res.status(412).json({ errorMessage: "닉네임 또는 패스워드를 확인해주세요."});
             return;
         }
-        res.cookie('accessToken', createAccessToken(user.userId));
-        res.cookie('refreshToken', createRefreshToken());
+        const accessToken = jwt.sign({userId: user.userId}, env.SECRET_KEY, {expiresIn: '5s'});
+        const refreshToken = jwt.sign({},env.SECRET_KEY,{ expiresIn: '7d' });
+        tokenObject[refreshToken] = user.userId;  // Refresh Token을 가지고 해당 유저의 정보를 서버에 저장합니다.
+        console.log(tokenObject);
+        res.cookie('accessToken', accessToken);
+        res.cookie('refreshToken', refreshToken);
         return res.status(200).send({message: "Token이 정상적으로 발급되었습니다."});
     }catch(error) {
         res.status(400).json({ errorMessage: "로그인에 실패하였습니다."});
@@ -93,18 +94,4 @@ router.post("/login", async (req, res) => {
 // 로그아웃
 // Access Token = null
 
-function createAccessToken(userId) {
-    const accessToken = jwt.sign(
-      { userId: userId },
-      env.SECRET_KEY,
-      { expiresIn: '10m' })
-};
-
-function createRefreshToken() {
-    const refreshToken = jwt.sign(
-      {},
-      env.SECRET_KEY,
-      { expiresIn: '7d' })
-    return refreshToken;
-};
-module.exports = router;
+module.exports = { router, tokenObject };

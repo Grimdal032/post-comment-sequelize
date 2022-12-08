@@ -1,6 +1,6 @@
 const express = require('express');
 const cookieParser = require("cookie-parser");
-const routes = require('./routes/login.js');
+const router = require('./routes/index.js');
 const app = express();
 const port = 3000;
 
@@ -17,7 +17,7 @@ app.use((error, req, res, next) => {
 });
 
 const { response } = require('express');
-app.use("/api", routes);
+app.use("/api", router);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
