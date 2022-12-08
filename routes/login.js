@@ -79,10 +79,9 @@ router.post("/login", async (req, res) => {
             res.status(412).json({ errorMessage: "닉네임 또는 패스워드를 확인해주세요."});
             return;
         }
-        const accessToken = jwt.sign({userId: user.userId}, env.SECRET_KEY, {expiresIn: '5s'});
+        const accessToken = jwt.sign({userId: user.userId}, env.SECRET_KEY, {expiresIn: '1m'});
         const refreshToken = jwt.sign({},env.SECRET_KEY,{ expiresIn: '7d' });
         tokenObject[refreshToken] = user.userId;  // Refresh Token을 가지고 해당 유저의 정보를 서버에 저장합니다.
-        console.log(tokenObject);
         res.cookie('accessToken', accessToken);
         res.cookie('refreshToken', refreshToken);
         return res.status(200).send({message: "Token이 정상적으로 발급되었습니다."});

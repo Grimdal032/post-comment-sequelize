@@ -6,7 +6,6 @@ let {tokenObject} = require("../routes/login.js");
 
 module.exports = async (req, res, next) => {
   try {
-    console.log(tokenObject);
     if (!req.cookies.refreshToken) return res.status(400).json({ "message": "Refresh Token이 존재하지 않습니다." });
     if (!req.cookies.accessToken) return res.status(400).json({ "message": "Access Token이 존재하지 않습니다." });
     const accessToken = req.cookies.accessToken;
@@ -30,12 +29,9 @@ module.exports = async (req, res, next) => {
       }
     }
     if (!isRefreshTokenValidate) return res.status(419).json({ "message": "Refresh Token이 만료되었습니다." });
-    console.log(isAccessTokenValidate());
     // AccessToken 이 만료되었을 경우 새로 발급
     if (!isAccessTokenValidate()) {
-        console.log(isAccessTokenValidate());
         const accessTokenId = tokenObject[refreshToken];
-        console.log(accessTokenId);
         if (!accessTokenId) return res.status(419).json({ "message": "Refresh Token의 정보가 서버에 존재하지 않습니다." });
         
         const newAccessToken = jwt.sign({userId: accessTokenId}, env.SECRET_KEY, {expiresIn: '10m'});
