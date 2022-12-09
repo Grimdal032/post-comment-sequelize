@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -20,54 +18,57 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Posts.init({
-    postId: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: { 
-        model: 'Users',
-        key : 'userId',
+  Posts.init(
+    {
+      postId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
       },
-      allowNull: false,
-    },
-    nickname: {
-      type: DataTypes.STRING,
-      references: { 
-        model: 'Users',
-        key : 'nickname',
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'userId',
+        },
+        allowNull: false,
       },
-      allowNull: false,
+      nickname: {
+        type: DataTypes.STRING,
+        references: {
+          model: 'Users',
+          key: 'nickname',
+        },
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      likes: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    content: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    likes: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW 
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW 
+    {
+      sequelize,
+      modelName: 'Posts',
     }
-  }, {
-    sequelize,
-    modelName: 'Posts',
-  });
+  );
   return Posts;
 };

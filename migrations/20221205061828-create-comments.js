@@ -1,9 +1,9 @@
 'use strict';
 module.exports = {
-  /** 
+  /**
    * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
    * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+   * **/
   async up(queryInterface, Sequelize) {
     /*
     *CREATE TABLE Comments
@@ -24,13 +24,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
+        type: Sequelize.DataTypes.INTEGER,
       },
       postId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: 'Posts',
-          key : 'postId',
+          key: 'postId',
         },
         allowNull: false,
       },
@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: 'Users',
-          key : 'userId',
+          key: 'userId',
         },
         allowNull: false,
       },
@@ -46,7 +46,7 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         references: {
           model: 'Users',
-          key : 'nickname',
+          key: 'nickname',
         },
         allowNull: false,
       },
@@ -57,20 +57,20 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
+        defaultValue: Sequelize.DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
-      }
+        defaultValue: Sequelize.DataTypes.NOW,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-  /** 
-   * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
-   * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+    /**
+     * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
+     * @param {import("sequelize")} Sequelize - Sequelize
+     * **/
     await queryInterface.dropTable('Comments');
-  }
+  },
 };

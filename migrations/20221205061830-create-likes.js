@@ -1,9 +1,9 @@
 'use strict';
 module.exports = {
-  /** 
+  /**
    * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
    * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+   * **/
   async up(queryInterface, Sequelize) {
     /*
     * CREATE TABLE Likes
@@ -22,41 +22,41 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
+        type: Sequelize.DataTypes.INTEGER,
       },
       postId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: 'Posts',
-          key : 'postId',
+          key: 'postId',
         },
         allowNull: false,
       },
       userId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: 'Users', 
-          key : 'userId',
+          model: 'Users',
+          key: 'userId',
         },
         allowNull: false,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
+        defaultValue: Sequelize.DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
-      }
+        defaultValue: Sequelize.DataTypes.NOW,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-  /** 
-   * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
-   * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+    /**
+     * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
+     * @param {import("sequelize")} Sequelize - Sequelize
+     * **/
     await queryInterface.dropTable('Likes');
-  }
+  },
 };

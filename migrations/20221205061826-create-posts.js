@@ -1,9 +1,9 @@
 'use strict';
 module.exports = {
-  /** 
+  /**
    * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
    * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+   * **/
   async up(queryInterface, Sequelize) {
     /*
     *CREATE TABLE Posts
@@ -28,15 +28,15 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: 'Users',
-          key : 'userId',
+          key: 'userId',
         },
         allowNull: false,
       },
       nickname: {
         type: Sequelize.DataTypes.STRING,
-        references: { 
+        references: {
           model: 'Users',
-          key : 'nickname',
+          key: 'nickname',
         },
         allowNull: false,
       },
@@ -61,14 +61,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
         defaultValue: Sequelize.DataTypes.NOW,
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-  /** 
-   * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
-   * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+    /**
+     * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
+     * @param {import("sequelize")} Sequelize - Sequelize
+     * **/
     await queryInterface.dropTable('Posts');
-  }
+  },
 };

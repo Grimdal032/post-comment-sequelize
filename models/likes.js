@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Likes extends Model {
     /**
@@ -19,42 +17,45 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Likes.init({
-    likeId: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
-    postId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Posts',
-        key : 'postId',
+  Likes.init(
+    {
+      likeId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
       },
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key : 'userId',
+      postId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Posts',
+          key: 'postId',
+        },
+        allowNull: false,
       },
-      allowNull: false,
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'userId',
+        },
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW 
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW 
+    {
+      sequelize,
+      modelName: 'Likes',
     }
-  }, {
-    sequelize,
-    modelName: 'Likes',
-  });
+  );
   return Likes;
 };

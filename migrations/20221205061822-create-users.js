@@ -1,9 +1,9 @@
 'use strict';
 module.exports = {
-/** 
- * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
- * @param {import("sequelize")} Sequelize - Sequelize
-* **/
+  /**
+   * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
+   * @param {import("sequelize")} Sequelize - Sequelize
+   * **/
   async up(queryInterface, Sequelize) {
     /*
     * CREATE TABLE Users
@@ -35,20 +35,20 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW 
-      }
+        defaultValue: Sequelize.DataTypes.NOW,
+      },
     });
   },
-  /** 
+  /**
    * @param {import("sequelize").QueryInterface} queryInterface - Sequelize Query Interface
    * @param {import("sequelize")} Sequelize - Sequelize
-  * **/
+   * **/
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
-  }
+  },
 };
